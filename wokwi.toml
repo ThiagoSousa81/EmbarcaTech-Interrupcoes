@@ -1,0 +1,5 @@
+[wokwi]
+version = 1
+firmware = 'build/EmbarcaTech-Interrupcoes.uf2'
+elf = 'build/EmbarcaTech-Interrupcoes.elf'
+gdbServerPort=3333
