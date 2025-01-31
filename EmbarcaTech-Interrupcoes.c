@@ -73,6 +73,25 @@ void npClear()
     npUpdate();
 }
 
+void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
+{
+    npClear();
+    switch (num)
+    {
+        case 1:
+            npSetLED(1, r, g, b);
+            npSetLED(2, r, g, b);
+            npSetLED(3, r, g, b);
+            npSetLED(7, r, g, b);
+            npSetLED(12, r, g, b);
+            npSetLED(16, r, g, b);
+            npSetLED(17, r, g, b);
+            npSetLED(22, r, g, b);
+            break;        
+    }
+    npUpdate();
+}
+
 int main()
 {
     stdio_init_all();                                     // Inicializar a comunicação serial
@@ -83,7 +102,7 @@ int main()
         npClear();                                 // Limpar todos os LEDs
         sleep_ms(1000);
 
-        npSetLED(12, 255, 255, 0);                    // Acender o LED correspondente (verde)        
+        npSetLED(12, 0, 255, 0);                    // Acender o LED correspondente (verde)        
         npUpdate();
         sleep_ms(1000);
     }
