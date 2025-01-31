@@ -62,5 +62,7 @@ target_link_libraries(EmbarcaTech-Interrupcoes
         hardware_clocks
         )
 
+
+
 pico_add_extra_outputs(EmbarcaTech-Interrupcoes)
 

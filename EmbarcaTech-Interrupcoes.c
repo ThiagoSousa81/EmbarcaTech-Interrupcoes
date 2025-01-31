@@ -11,8 +11,14 @@
 #define LED_PIN_RED 13
 // Implementar o Debounce para os botões
 //https://github.com/wiltonlacerda/EmbarcaTechU4C4/tree/main/05_IntDebounceWokwi
-#define BUTTON_A = 5
-#define BUTTON_B = 6
+const uint BUTTON_A = 5;
+const uint BUTTON_B = 6;
+
+// Armazena o tempo do último evento (em microssegundos)
+static volatile uint32_t last_time_A = 0;
+static volatile uint32_t last_time_B = 0; 
+
+int display_Value = 5;
 
 bool led_on = false;
 
@@ -276,6 +282,50 @@ bool repeating_timer_callback(struct repeating_timer *t) {
     return true;
 }
 
+void setup_button(uint button_pin, void (*handler)(uint, uint32_t)) {
+    gpio_init(button_pin);
+    gpio_set_dir(button_pin, GPIO_IN);    // Configura o pino como entrada
+    gpio_pull_up(button_pin);             // Habilita o pull-up interno
+    gpio_set_irq_enabled_with_callback(button_pin, GPIO_IRQ_EDGE_FALL, true, handler);  // Interrupção na borda de queda
+}
+
+// Função de interrupção para o botão A
+void gpio_irq_handler_A(uint gpio, uint32_t events)
+{
+    uint32_t current_time = to_us_since_boot(get_absolute_time());
+
+    // Verifica o debounce (200ms)
+    if (current_time - last_time_A > 200000)
+    {
+        // Decrementa o valor do display, mas não deixa o valor abaixo de 0
+        if (display_Value != 0)
+        {
+            display_Value--;
+            printf("Botão A pressionado, valor: %d\n", display_Value);
+        }
+        last_time_A = current_time; // Atualiza o tempo do último evento
+    }
+}
+
+
+// Função de interrupção para o botão B
+void gpio_irq_handler_B(uint gpio, uint32_t events)
+{
+    uint32_t current_time = to_us_since_boot(get_absolute_time());
+
+    // Verifica o debounce (200ms)
+    if (current_time - last_time_B > 200000)
+    {
+        // Incrementa o valor do display, mas não deixa o valor acima de 9
+        if (display_Value < 9)
+        {
+            display_Value++;
+            printf("Botão B pressionado, valor: %d\n", display_Value);
+        }
+        last_time_B = current_time; // Atualiza o tempo do último evento
+    }
+}
+
 int main()
 {
     stdio_init_all();                                     // Inicializar a comunicação serial
@@ -285,19 +335,36 @@ int main()
     gpio_init(LED_PIN_RED);
     gpio_set_dir(LED_PIN_RED, true);
 
+    gpio_init(BUTTON_A);
+    gpio_set_dir(BUTTON_A, GPIO_IN); // Configura o pino como entrada
+    gpio_pull_up(BUTTON_A);          // Habilita o pull-up interno    
+
+    // Configuração da interrupção com callback dos botões A e B
+
+    gpio_init(BUTTON_B);
+    gpio_set_dir(BUTTON_B, GPIO_IN); // Configura o pino como entrada
+    gpio_pull_up(BUTTON_B);          // Habilita o pull-up interno
+
+    // Configura as interrupções para os botões A e B
+    setup_button(BUTTON_A, gpio_irq_handler_A);  // Para o botão A
+    setup_button(BUTTON_B, gpio_irq_handler_B);  // Para o botão B
+
     // Declaração de uma estrutura de temporizador de repetição.
     // Esta estrutura armazenará informações sobre o temporizador configurado.
     struct repeating_timer timer;
 
-    // Configura o temporizador para chamar a função de callback a cada 5 segundos.
+    // Configura o temporizador para chamar a função de callback para acender o LED 5 vezes
     add_repeating_timer_ms(100, repeating_timer_callback, NULL, &timer);
+    
+    
+    
 
+    setDisplayNum(5, 0, 0, 100); 
     while (true) {
-        for (uint i = 0; i < 10; ++i)
+        /*for (uint i = 0; i < 10; ++i)
         {
             setDisplayNum(i, 0, 0, 100);        
             sleep_ms(1000);
-        }
-        
+        }*/               
     }
 }
