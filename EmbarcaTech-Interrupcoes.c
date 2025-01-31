@@ -14,7 +14,6 @@
 #define BUTTON_A = 5
 #define BUTTON_B = 6
 
-
 bool led_on = false;
 
 // Estrutura para representar um pixel com componentes RGB
@@ -269,12 +268,10 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
 
 // Função de callback que será chamada repetidamente pelo temporizador
 // O tipo bool indica que a função deve retornar verdadeiro ou falso para continuar ou parar o temporizador.
-bool repeating_timer_callback(struct repeating_timer *t) {
-    // Imprime uma mensagem na saída serial indicando que 1 segundo se passou.
-    printf("1 segundo passou\n");
+bool repeating_timer_callback(struct repeating_timer *t) {    
     //Liga ou desliga o led.
     led_on = !led_on;
-    gpio_put(LED_PIN_RED,led_on);
+    gpio_put(LED_PIN_RED, led_on);    
     // Retorna true para manter o temporizador repetindo. Se retornar false, o temporizador para.
     return true;
 }
@@ -284,9 +281,9 @@ int main()
     stdio_init_all();                                     // Inicializar a comunicação serial
     npInit(LED_PIN);                                      // Inicializar os LEDs
 
-    // Inicializar o pino GPIO11
+    // Inicializar o pino GPIO13
     gpio_init(LED_PIN_RED);
-    gpio_set_dir(LED_PIN_RED,true);
+    gpio_set_dir(LED_PIN_RED, true);
 
     // Declaração de uma estrutura de temporizador de repetição.
     // Esta estrutura armazenará informações sobre o temporizador configurado.
