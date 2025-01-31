@@ -11,7 +11,8 @@
     caracteres em estilo digital (ex.: segmentos iluminados que formem o número).
     - Alternativamente, é permitido utilizar um estilo criativo, desde que o número seja claramente
 identificável.
-Requisitos do Projeto
+
+## Requisitos do Projeto
 Para o desenvolvimento, devem ser seguidos os seguintes requisitos:
 1. Uso de interrupções: Todas as funcionalidades relacionadas aos botões devem ser implementadas
 utilizando rotinas de interrupção (IRQ).
