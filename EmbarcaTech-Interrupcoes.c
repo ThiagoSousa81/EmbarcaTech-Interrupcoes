@@ -282,47 +282,40 @@ bool repeating_timer_callback(struct repeating_timer *t) {
     return true;
 }
 
-void setup_button(uint button_pin, void (*handler)(uint, uint32_t)) {
-    gpio_init(button_pin);
-    gpio_set_dir(button_pin, GPIO_IN);    // Configura o pino como entrada
-    gpio_pull_up(button_pin);             // Habilita o pull-up interno
-    gpio_set_irq_enabled_with_callback(button_pin, GPIO_IRQ_EDGE_FALL, true, handler);  // Interrupção na borda de queda
-}
-
-// Função de interrupção para o botão A
-void gpio_irq_handler_A(uint gpio, uint32_t events)
+// Função de interrupção com debouncing do botão A
+void gpio_irq_handler_botao_A(uint gpio, uint32_t events)
 {
-    uint32_t current_time = to_us_since_boot(get_absolute_time());
-
-    // Verifica o debounce (200ms)
-    if (current_time - last_time_A > 200000)
+    // Obtém o tempo atual em microssegundos
+    uint32_t current_time = to_us_since_boot(get_absolute_time());    
+    // Verifica se passou tempo suficiente desde o último evento
+    if (current_time - last_time_A > 200000) // 200 ms de debouncing
     {
-        // Decrementa o valor do display, mas não deixa o valor abaixo de 0
+        //decremento no valor do display
         if (display_Value != 0)
         {
             display_Value--;
-            printf("Botão A pressionado, valor: %d\n", display_Value);
+            setDisplayNum(display_Value, 0, 0, 100); 
         }
         last_time_A = current_time; // Atualiza o tempo do último evento
     }
 }
 
-
-// Função de interrupção para o botão B
+// Função de interrupção com debouncing do botão B
 void gpio_irq_handler_B(uint gpio, uint32_t events)
 {
-    uint32_t current_time = to_us_since_boot(get_absolute_time());
-
-    // Verifica o debounce (200ms)
-    if (current_time - last_time_B > 200000)
+    // Obtém o tempo atual em microssegundos
+    uint32_t current_time = to_us_since_boot(get_absolute_time());    
+    // Verifica se passou tempo suficiente desde o último evento
+    if (current_time - last_time_B > 200000) // 200 ms de debouncing
     {
-        // Incrementa o valor do display, mas não deixa o valor acima de 9
-        if (display_Value < 9)
+        //decremento no valor do display
+        if (display_Value != 9)
         {
             display_Value++;
-            printf("Botão B pressionado, valor: %d\n", display_Value);
+            setDisplayNum(display_Value, 0, 0, 100); 
         }
         last_time_B = current_time; // Atualiza o tempo do último evento
+
     }
 }
 
@@ -337,18 +330,15 @@ int main()
 
     gpio_init(BUTTON_A);
     gpio_set_dir(BUTTON_A, GPIO_IN); // Configura o pino como entrada
-    gpio_pull_up(BUTTON_A);          // Habilita o pull-up interno    
+    gpio_pull_up(BUTTON_A);          // Habilita o pull-up interno
+    gpio_set_irq_enabled_with_callback(BUTTON_A, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler_botao_A);
 
     // Configuração da interrupção com callback dos botões A e B
 
     gpio_init(BUTTON_B);
     gpio_set_dir(BUTTON_B, GPIO_IN); // Configura o pino como entrada
     gpio_pull_up(BUTTON_B);          // Habilita o pull-up interno
-
-    // Configura as interrupções para os botões A e B
-    setup_button(BUTTON_A, gpio_irq_handler_A);  // Para o botão A
-    setup_button(BUTTON_B, gpio_irq_handler_B);  // Para o botão B
-
+    gpio_set_irq_enabled_with_callback(BUTTON_B, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler_B);
     // Declaração de uma estrutura de temporizador de repetição.
     // Esta estrutura armazenará informações sobre o temporizador configurado.
     struct repeating_timer timer;
