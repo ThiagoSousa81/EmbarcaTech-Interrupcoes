@@ -176,25 +176,19 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(22, r, g, b);
         npSetLED(23, r, g, b);
         break;
-    case 6:
-        npSetLED(0, r, g, b);
+    case 6:        
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
-        npSetLED(3, r, g, b);
-        npSetLED(4, r, g, b);
-        npSetLED(5, r, g, b);
-        npSetLED(9, r, g, b);
-        npSetLED(10, r, g, b);
+        npSetLED(3, r, g, b); 
+        npSetLED(6, r, g, b);
+        npSetLED(8, r, g, b);
         npSetLED(11, r, g, b);
         npSetLED(12, r, g, b);
         npSetLED(13, r, g, b);
-        npSetLED(14, r, g, b);
-        npSetLED(15, r, g, b);
-        npSetLED(20, r, g, b);
+        npSetLED(16, r, g, b); 
         npSetLED(21, r, g, b);
         npSetLED(22, r, g, b);
         npSetLED(23, r, g, b);
-        npSetLED(24, r, g, b);
         break;
     case 7:
         npSetLED(1, r, g, b);
@@ -203,49 +197,36 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(18, r, g, b);
         npSetLED(21, r, g, b);
         npSetLED(22, r, g, b);
-        npSetLED(23, r, g, b);
-        npSetLED(24, r, g, b);
+        npSetLED(23, r, g, b);        
         break;
     case 8:
-        npSetLED(0, r, g, b);
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
         npSetLED(3, r, g, b);
-        npSetLED(4, r, g, b);
-        npSetLED(5, r, g, b);
-        npSetLED(9, r, g, b);
-        npSetLED(10, r, g, b);
+        npSetLED(6, r, g, b);
+        npSetLED(8, r, g, b);
         npSetLED(11, r, g, b);
         npSetLED(12, r, g, b);
         npSetLED(13, r, g, b);
-        npSetLED(14, r, g, b);
-        npSetLED(15, r, g, b);
-        npSetLED(19, r, g, b);
-        npSetLED(20, r, g, b);
+        npSetLED(16, r, g, b);
+        npSetLED(18, r, g, b);
         npSetLED(22, r, g, b);
         npSetLED(21, r, g, b);
         npSetLED(23, r, g, b);
-        npSetLED(24, r, g, b);
         break;
-    case 9:
-        npSetLED(0, r, g, b);
+    case 9:        
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
-        npSetLED(3, r, g, b);
-        npSetLED(4, r, g, b);
-        npSetLED(9, r, g, b);
-        npSetLED(10, r, g, b);
+        npSetLED(3, r, g, b);        
+        npSetLED(8, r, g, b);
         npSetLED(11, r, g, b);
         npSetLED(12, r, g, b);
         npSetLED(13, r, g, b);
-        npSetLED(14, r, g, b);
-        npSetLED(15, r, g, b);
-        npSetLED(19, r, g, b);
-        npSetLED(20, r, g, b);
+        npSetLED(16, r, g, b);
+        npSetLED(18, r, g, b);
         npSetLED(21, r, g, b);
         npSetLED(22, r, g, b);
         npSetLED(23, r, g, b);
-        npSetLED(24, r, g, b);
         break;
     }
     npUpdate();
