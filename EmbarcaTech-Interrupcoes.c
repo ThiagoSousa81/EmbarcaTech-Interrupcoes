@@ -43,23 +43,8 @@ void npInit(uint pin)
     }
 }
 
-// Função para definir a cor de um LED específico
-void npSetLED(const uint index, const uint8_t r, const uint8_t g, const uint8_t b) 
-{
-    leds[index].R = r;                                    // Definir componente vermelho
-    leds[index].G = g;                                    // Definir componente verde
-    leds[index].B = b;                                    // Definir componente azul
-}
-
-// Função para limpar (apagar) todos os LEDs
-void npClear() 
-{
-    for (uint i = 0; i < LED_COUNT; ++i)                  // Iterar sobre todos os LEDs
-        npSetLED(i, 0, 0, 0);                             // Definir cor como preta (apagado)
-}
-
 // Função para atualizar os LEDs no hardware
-void npWrite() 
+void npUpdate() 
 {
     for (uint i = 0; i < LED_COUNT; ++i)                  // Iterar sobre todos os LEDs
     {
@@ -69,22 +54,38 @@ void npWrite()
     }
 }
 
+// Função para definir a cor de um LED específico
+void npSetLED(const uint index, const uint8_t r, const uint8_t g, const uint8_t b) 
+{
+    leds[index].R = r;                                    // Definir componente vermelho
+    leds[index].G = g;                                    // Definir componente verde
+    leds[index].B = b;                                    // Definir componente azul
 
+    npUpdate();
+}
+
+// Função para limpar (apagar) todos os LEDs
+void npClear() 
+{
+    for (uint i = 0; i < LED_COUNT; ++i)                  // Iterar sobre todos os LEDs
+        npSetLED(i, 0, 0, 0);                             // Definir cor como preta (apagado)
+        
+    npUpdate();
+}
 
 int main()
 {
     stdio_init_all();                                     // Inicializar a comunicação serial
     npInit(LED_PIN);                                      // Inicializar os LEDs
-    npClear();                                            // Apagar todos os LEDs
-    npWrite();                                            // Atualizar o estado inicial dos LEDs
+    npClear();                                            // Apagar todos os LEDs    
 
     while (true) {
         npClear();                                 // Limpar todos os LEDs
+
         sleep_ms(1000);
 
         npSetLED(12, 0, 255, 0);                    // Acender o LED correspondente (verde)
         
-        npWrite();                                 // Atualizar LEDs
         sleep_ms(1000);
     }
 }
