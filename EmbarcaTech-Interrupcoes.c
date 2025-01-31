@@ -61,7 +61,7 @@ void npSetLED(const uint index, const uint8_t r, const uint8_t g, const uint8_t 
     leds[index].G = g;                                    // Definir componente verde
     leds[index].B = b;                                    // Definir componente azul
 
-    npUpdate();
+    //npUpdate();
 }
 
 // Função para limpar (apagar) todos os LEDs
@@ -81,11 +81,10 @@ int main()
 
     while (true) {
         npClear();                                 // Limpar todos os LEDs
-
         sleep_ms(1000);
 
-        npSetLED(12, 0, 255, 0);                    // Acender o LED correspondente (verde)
-        
+        npSetLED(12, 255, 255, 0);                    // Acender o LED correspondente (verde)        
+        npUpdate();
         sleep_ms(1000);
     }
 }
