@@ -211,6 +211,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
             npSetLED(21, r, g, b);  
             npSetLED(22, r, g, b);
             npSetLED(23, r, g, b);
+            npSetLED(24, r, g, b);
             break;
         case 8:
             npSetLED(0, r, g, b);  
@@ -265,7 +266,7 @@ int main()
     while (true) {
         for (uint i = 0; i < 10; ++i)
         {
-            setDisplayNum(i, 0, 255, 255);        
+            setDisplayNum(i, 0, 100, 0);        
             sleep_ms(1000);
         }
         
