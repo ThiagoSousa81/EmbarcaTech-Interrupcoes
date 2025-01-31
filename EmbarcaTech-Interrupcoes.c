@@ -298,7 +298,7 @@ int main()
     while (true) {
         for (uint i = 0; i < 10; ++i)
         {
-            setDisplayNum(i, 0, 100, 0);        
+            setDisplayNum(i, 0, 0, 100);        
             sleep_ms(1000);
         }
         
