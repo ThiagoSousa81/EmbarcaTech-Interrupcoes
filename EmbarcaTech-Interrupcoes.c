@@ -2,11 +2,20 @@
 #include "pico/stdlib.h"            // Biblioteca padrão para o Raspberry Pi Pico
 #include <hardware/pio.h>           // Biblioteca para manipulação de periféricos PIO
 #include "hardware/clocks.h"        // Biblioteca para controle de relógios do hardware
+#include "hardware/timer.h"         // Inclui a biblioteca para gerenciamento de temporizadores de hardware.
 #include "ws2818b.pio.h"            // Biblioteca PIO para controle de LEDs WS2818B
 
 // Definições de constantes
 #define LED_COUNT 25                // Número de LEDs na matriz
 #define LED_PIN 7                   // Pino GPIO conectado aos LEDs
+#define LED_PIN_RED 13
+// Implementar o Debounce para os botões
+//https://github.com/wiltonlacerda/EmbarcaTechU4C4/tree/main/05_IntDebounceWokwi
+#define BUTTON_A = 5
+#define BUTTON_B = 6
+
+
+bool led_on = false;
 
 // Estrutura para representar um pixel com componentes RGB
 struct pixel_t { 
@@ -258,10 +267,33 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
     npUpdate();
 }
 
+// Função de callback que será chamada repetidamente pelo temporizador
+// O tipo bool indica que a função deve retornar verdadeiro ou falso para continuar ou parar o temporizador.
+bool repeating_timer_callback(struct repeating_timer *t) {
+    // Imprime uma mensagem na saída serial indicando que 1 segundo se passou.
+    printf("1 segundo passou\n");
+    //Liga ou desliga o led.
+    led_on = !led_on;
+    gpio_put(LED_PIN_RED,led_on);
+    // Retorna true para manter o temporizador repetindo. Se retornar false, o temporizador para.
+    return true;
+}
+
 int main()
 {
     stdio_init_all();                                     // Inicializar a comunicação serial
     npInit(LED_PIN);                                      // Inicializar os LEDs
+
+    // Inicializar o pino GPIO11
+    gpio_init(LED_PIN_RED);
+    gpio_set_dir(LED_PIN_RED,true);
+
+    // Declaração de uma estrutura de temporizador de repetição.
+    // Esta estrutura armazenará informações sobre o temporizador configurado.
+    struct repeating_timer timer;
+
+    // Configura o temporizador para chamar a função de callback a cada 5 segundos.
+    add_repeating_timer_ms(100, repeating_timer_callback, NULL, &timer);
 
     while (true) {
         for (uint i = 0; i < 10; ++i)
