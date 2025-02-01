@@ -18,7 +18,7 @@ const uint BUTTON_B = 6;
 static volatile uint32_t last_time_A = 0;
 static volatile uint32_t last_time_B = 0;
 
-int display_Value = 5;
+int display_Value = 0;
 
 bool led_on = false;
 
@@ -105,7 +105,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
         npSetLED(3, r, g, b);
-        npSetLED(4, r, g, b);
+        npSetLED(6, r, g, b);
         npSetLED(8, r, g, b);
         npSetLED(11, r, g, b);
         npSetLED(13, r, g, b);
@@ -232,7 +232,6 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
     npUpdate();
 }
 
-
 // Função de callback que será chamada repetidamente pelo temporizador
 // O tipo bool indica que a função deve retornar verdadeiro ou falso para continuar ou parar o temporizador.
 bool repeating_timer_callback(struct repeating_timer *t)
@@ -302,7 +301,7 @@ int main()
     // Configura o temporizador para chamar a função de callback para acender o LED 5 vezes
     add_repeating_timer_ms(100, repeating_timer_callback, NULL, &timer);
 
-    setDisplayNum(5, 0, 0, 100);
+    setDisplayNum(display_Value, 0, 0, 100);
     while (true)
     {
         /*for (uint i = 0; i < 10; ++i)
