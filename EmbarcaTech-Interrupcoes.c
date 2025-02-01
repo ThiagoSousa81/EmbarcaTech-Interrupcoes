@@ -232,6 +232,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
     npUpdate();
 }
 
+
 // Função de callback que será chamada repetidamente pelo temporizador
 // O tipo bool indica que a função deve retornar verdadeiro ou falso para continuar ou parar o temporizador.
 bool repeating_timer_callback(struct repeating_timer *t)
