@@ -309,11 +309,7 @@ int main()
     setDisplayNum(display_Value, 0, 0, 100);
     while (true)
     {
-        /*for (uint i = 0; i < 10; ++i)
-        {
-            setDisplayNum(i, 0, 0, 100);
-            sleep_ms(1000);
-        }*/
+        // Essa parte é necessária para o funcionamento das interrupções
     }
     return 0; // nunca chega aqui
 }
