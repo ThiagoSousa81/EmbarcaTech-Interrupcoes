@@ -59,7 +59,6 @@ target_include_directories(EmbarcaTech-Interrupcoes PRIVATE
 # Add any user requested libraries
 target_link_libraries(EmbarcaTech-Interrupcoes 
         hardware_pio
-        hardware_clocks
         )
 
 

@@ -104,7 +104,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
     npClear();
     switch (num)
     {
-    case 0:
+    case 0: // Número 0
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
         npSetLED(3, r, g, b);
@@ -118,7 +118,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(22, r, g, b);
         npSetLED(23, r, g, b);
         break;
-    case 1:
+    case 1: // Número 1
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
         npSetLED(3, r, g, b);
@@ -128,7 +128,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(17, r, g, b);
         npSetLED(22, r, g, b);
         break;
-    case 2:
+    case 2: // Número 2
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
         npSetLED(3, r, g, b);
@@ -141,7 +141,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(22, r, g, b);
         npSetLED(23, r, g, b);
         break;
-    case 3:
+    case 3: // Número 3
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
         npSetLED(3, r, g, b);
@@ -154,7 +154,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(22, r, g, b);
         npSetLED(23, r, g, b);
         break;
-    case 4:
+    case 4: // Número 4
         npSetLED(2, r, g, b);
         npSetLED(5, r, g, b);
         npSetLED(6, r, g, b);
@@ -166,7 +166,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(17, r, g, b);
         npSetLED(22, r, g, b);
         break;
-    case 5:
+    case 5: // Número 5
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
         npSetLED(3, r, g, b);        
@@ -179,7 +179,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(22, r, g, b);
         npSetLED(23, r, g, b);
         break;
-    case 6:        
+    case 6: // Número 6
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
         npSetLED(3, r, g, b); 
@@ -193,7 +193,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(22, r, g, b);
         npSetLED(23, r, g, b);
         break;
-    case 7:
+    case 7: // Número 7
         npSetLED(1, r, g, b);
         npSetLED(8, r, g, b);
         npSetLED(11, r, g, b);
@@ -202,7 +202,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(22, r, g, b);
         npSetLED(23, r, g, b);        
         break;
-    case 8:
+    case 8: // Número 8
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
         npSetLED(3, r, g, b);
@@ -217,7 +217,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(21, r, g, b);
         npSetLED(23, r, g, b);
         break;
-    case 9:        
+    case 9: // Número 9
         npSetLED(1, r, g, b);
         npSetLED(2, r, g, b);
         npSetLED(3, r, g, b);        
@@ -232,7 +232,7 @@ void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
         npSetLED(23, r, g, b);
         break;
     }
-    npUpdate();
+    npUpdate(); // Atualiza o display após colocar o número
 }
 
 // Função de callback que será chamada repetidamente pelo temporizador
