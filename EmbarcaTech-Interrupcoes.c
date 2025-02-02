@@ -12,11 +12,11 @@
 #include "ws2818b.pio.h"     // Biblioteca PIO para controle de LEDs WS2818B
 
 // Definições de constantes
-#define LED_COUNT 25 // Número de LEDs na matriz
-#define LED_PIN 7    // Pino GPIO conectado aos LEDs
-#define LED_PIN_RED 13
-const uint BUTTON_A = 5;
-const uint BUTTON_B = 6;
+#define LED_COUNT 25     // Número de LEDs na matriz
+#define LED_PIN 7        // Pino GPIO conectado aos LEDs
+#define LED_PIN_RED 13   // Pino do vermelho do LED RGB
+const uint BUTTON_A = 5; // Pino GPIO do botão A
+const uint BUTTON_B = 6; // Pino GPIO do botão B
 
 // Armazena o tempo do último click de botão (em microssegundos)
 static volatile uint32_t last_time_A = 0;
@@ -304,6 +304,8 @@ int main()
     struct repeating_timer timer;
 
     // Configura o temporizador para chamar a função de callback para acender o LED 5 vezes
+    // Se considerarmos "piscar" como um ciclo completo (acender e apagar): O LED pisca 5 vezes por segundo (10 mudanças de estado em 100ms / 2) = 5 piscadas.
+    // Se considerarmos "piscar" como qualquer mudança de estado: O LED muda de estado 10 vezes por segundo, logo pra piscar 10 vezes por segundo precisaríamos de 200ms.
     add_repeating_timer_ms(100, repeating_timer_callback, NULL, &timer);
 
     setDisplayNum(display_Value, 0, 0, 100);
