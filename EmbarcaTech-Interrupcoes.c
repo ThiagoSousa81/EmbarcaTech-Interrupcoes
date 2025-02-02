@@ -1,7 +1,13 @@
+//|=======================================|
+//|                                       |
+//|            Thiago Sousa               |
+//|   https://github.com/ThiagoSousa81    |
+//|                                       |
+//|=======================================|
+// Este projeto foi otimizado para ter o menor tamanho possível
 #include <stdio.h>           // Biblioteca padrão de entrada e saída
 #include "pico/stdlib.h"     // Biblioteca padrão para o Raspberry Pi Pico
 #include <hardware/pio.h>    // Biblioteca para manipulação de periféricos PIO
-#include "hardware/clocks.h" // Biblioteca para controle de relógios do hardware
 #include "hardware/timer.h"  // Inclui a biblioteca para gerenciamento de temporizadores de hardware.
 #include "ws2818b.pio.h"     // Biblioteca PIO para controle de LEDs WS2818B
 
@@ -9,17 +15,17 @@
 #define LED_COUNT 25 // Número de LEDs na matriz
 #define LED_PIN 7    // Pino GPIO conectado aos LEDs
 #define LED_PIN_RED 13
-// Implementar o Debounce para os botões
-// https://github.com/wiltonlacerda/EmbarcaTechU4C4/tree/main/05_IntDebounceWokwi
 const uint BUTTON_A = 5;
 const uint BUTTON_B = 6;
 
-// Armazena o tempo do último evento (em microssegundos)
+// Armazena o tempo do último click de botão (em microssegundos)
 static volatile uint32_t last_time_A = 0;
 static volatile uint32_t last_time_B = 0;
 
+// Valor inicial que aparece na matriz de LEDs
 int display_Value = 0;
 
+// Estado inicial do LED RGB
 bool led_on = false;
 
 // Estrutura para representar um pixel com componentes RGB
@@ -33,7 +39,7 @@ typedef pixel_t npLED_t;        // Alias para facilitar o uso no contexto de LED
 
 npLED_t leds[LED_COUNT]; // Array para armazenar o estado de cada LED
 PIO np_pio;              // Variável para referenciar a instância PIO usada
-uint sm;                 // Variável para armazenar o número do state machine usado
+uint sm;                 // Variável para armazenar o número da máquina de estado (State Machine)
 
 // Função para inicializar o PIO para controle dos LEDs
 void npInit(uint pin)
@@ -50,7 +56,8 @@ void npInit(uint pin)
 
     ws2818b_program_init(np_pio, sm, offset, pin, 800000.f); // Inicializar state machine para LEDs
 
-    for (uint i = 0; i < LED_COUNT; ++i) // Inicializar todos os LEDs como apagados
+    // Inicializar todos os LEDs como apagados
+    for (uint i = 0; i < LED_COUNT; ++i) 
     {
         leds[i].R = 0;
         leds[i].G = 0;
@@ -63,8 +70,8 @@ void npUpdate()
 {
     for (uint i = 0; i < LED_COUNT; ++i) // Iterar sobre todos os LEDs
     {
-        pio_sm_put_blocking(np_pio, sm, leds[i].G); // Enviar componente verde
         pio_sm_put_blocking(np_pio, sm, leds[i].R); // Enviar componente vermelho
+        pio_sm_put_blocking(np_pio, sm, leds[i].G); // Enviar componente verde        
         pio_sm_put_blocking(np_pio, sm, leds[i].B); // Enviar componente azul
     }
 }
@@ -75,8 +82,6 @@ void npSetLED(const uint index, const uint8_t r, const uint8_t g, const uint8_t 
     leds[index].R = r; // Definir componente vermelho
     leds[index].G = g; // Definir componente verde
     leds[index].B = b; // Definir componente azul
-
-    // npUpdate();
 }
 
 // Função para limpar (apagar) todos os LEDs
@@ -84,20 +89,18 @@ void npClear()
 {
     for (uint i = 0; i < LED_COUNT; ++i) // Iterar sobre todos os LEDs
         npSetLED(i, 0, 0, 0);            // Definir cor como preta (apagado)
-
-    // npUpdate();
 }
 
+// Função para definir qual número mostrar na tela
 void setDisplayNum(int num, const uint8_t r, const uint8_t g, const uint8_t b)
 {
-
-    /*
+/*  Gabarito do Display
     24, 23, 22, 21, 20
     15, 16, 17, 18, 19
     14, 13, 12, 11, 10
     05, 06, 07, 08, 09
     04, 03, 02, 01, 00
-    */
+*/
     npClear();
     switch (num)
     {
@@ -249,7 +252,7 @@ void gpio_irq_handler(uint gpio, uint32_t events)
     // Obtém o tempo atual em microssegundos
     uint32_t current_time = to_us_since_boot(get_absolute_time());
     // Verifica se passou tempo suficiente desde o último evento
-    if (current_time - last_time_A > 200000) // 200 ms de debouncing
+    if (current_time - last_time_A > 500000) // 500 ms de debouncing
     {
         if (gpio == BUTTON_A)
         {
