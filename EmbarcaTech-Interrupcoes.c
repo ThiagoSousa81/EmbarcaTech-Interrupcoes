@@ -19,8 +19,7 @@ const uint BUTTON_A = 5; // Pino GPIO do botão A
 const uint BUTTON_B = 6; // Pino GPIO do botão B
 
 // Armazena o tempo do último click de botão (em microssegundos)
-static volatile uint32_t last_time_A = 0;
-static volatile uint32_t last_time_B = 0;
+static volatile uint32_t last_time = 0;
 
 // Valor inicial que aparece na matriz de LEDs
 int display_Value = 0;
@@ -252,7 +251,7 @@ void gpio_irq_handler(uint gpio, uint32_t events)
     // Obtém o tempo atual em microssegundos
     uint32_t current_time = to_us_since_boot(get_absolute_time());
     // Verifica se passou tempo suficiente desde o último evento
-    if (current_time - last_time_A > 500000) // 500 ms de debouncing
+    if (current_time - last_time > 500000) // 500 ms de debouncing
     {
         if (gpio == BUTTON_A)
         {
@@ -262,7 +261,7 @@ void gpio_irq_handler(uint gpio, uint32_t events)
                 display_Value--;
                 setDisplayNum(display_Value, 0, 0, 100);
             }
-            last_time_A = current_time; // Atualiza o tempo do último evento
+            last_time = current_time; // Atualiza o tempo do último evento
         }
         else
         {
@@ -272,7 +271,7 @@ void gpio_irq_handler(uint gpio, uint32_t events)
                 display_Value++;
                 setDisplayNum(display_Value, 0, 0, 100);
             }
-            last_time_B = current_time; // Atualiza o tempo do último evento
+            last_time = current_time; // Atualiza o tempo do último evento
         }
     }
 }
