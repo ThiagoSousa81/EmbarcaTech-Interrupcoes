@@ -298,7 +298,7 @@ int main()
     gpio_pull_up(BUTTON_B);          // Habilita o pull-up interno
     // Configuração da interrupção com callback do botão B
     gpio_set_irq_enabled_with_callback(BUTTON_B, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler);
-
+    
     // Declaração de uma estrutura de temporizador de repetição.
     // Esta estrutura armazenará informações sobre o temporizador configurado.
     struct repeating_timer timer;
@@ -306,6 +306,14 @@ int main()
     // Configura o temporizador para chamar a função de callback para acender o LED 5 vezes
     add_repeating_timer_ms(100, repeating_timer_callback, NULL, &timer);
 
-    // Começa o display com 0
-    setDisplayNum(display_Value, 0, 0, 100);    
+    setDisplayNum(display_Value, 0, 0, 100);
+    while (true)
+    {
+        /*for (uint i = 0; i < 10; ++i)
+        {
+            setDisplayNum(i, 0, 0, 100);
+            sleep_ms(1000);
+        }*/
+    }
+    return 0; // nunca chega aqui
 }
