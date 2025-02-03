@@ -28,7 +28,7 @@ domínio de diferentes tipos de controle.
 
 ## Sumário
 
-- ### Vídeo de apresentação (em breve)
+- ### [Vídeo de apresentação](https://youtu.be/BK8DrDJhSms)
 - ### [Workflow](https://github.com/ThiagoSousa81/EmbarcaTech-Interrupcoes/blob/main/.github/workflows/main.yml)
 - ### [Wokwi](https://github.com/ThiagoSousa81/EmbarcaTech-Interrupcoes/blob/main/diagram.json)
 - ### [Script em C](https://github.com/ThiagoSousa81/EmbarcaTech-Interrupcoes/blob/main/EmbarcaTech-Interrupcoes.c)
